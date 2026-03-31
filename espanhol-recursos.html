@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡Aprende Español! – Recursos Interativos</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #16161a;
+    --card: #1e1e24;
+    --border: #2a2a35;
+    --red: #e8394a;
+    --yellow: #f5c842;
+    --gold: #d4a017;
+    --cream: #f0e6d3;
+    --muted: #7a7a8a;
+    --text: #ede8e0;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 20% 10%, rgba(232,57,74,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(245,200,66,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+  /* HERO */
+  header {
+    padding: 70px 0 50px;
+    text-align: center;
+    position: relative;
+  }
+
+  .flag-strip {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 28px;
+  }
+  .flag-strip span {
+    display: block;
+    height: 5px;
+    border-radius: 3px;
+  }
+  .flag-strip .r { width: 60px; background: var(--red); }
+  .flag-strip .y { width: 100px; background: var(--yellow); }
+  .flag-strip .r2 { width: 60px; background: var(--red); }
+
+  .eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.9;
+    letter-spacing: -2px;
+    color: var(--cream);
+    margin-bottom: 8px;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--yellow);
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    margin-top: 20px;
+    font-weight: 300;
+    letter-spacing: 0.3px;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 28px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .badge strong { color: var(--text); font-weight: 500; }
+
+  /* SECTION HEADERS */
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  .section-label .icon {
+    font-size: 22px;
+    width: 44px;
+    height: 44px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .section-label h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--cream);
+    letter-spacing: -0.5px;
+  }
+  .section-label p {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* CARDS GRID */
+  .grid { display: grid; gap: 16px; }
+  .grid-3 { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+  .grid-2 { grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: border-color 0.2s, transform 0.2s;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent, var(--yellow));
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover {
+    border-color: rgba(245,200,66,0.3);
+    transform: translateY(-3px);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .card-emoji {
+    font-size: 32px;
+    line-height: 1;
+  }
+  .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+  .tag-free { color: #4ade80; border-color: #4ade8040; background: #4ade8010; }
+  .tag-app  { color: #60a5fa; border-color: #60a5fa40; background: #60a5fa10; }
+  .tag-video { color: #f472b6; border-color: #f472b640; background: #f472b610; }
+  .tag-game { color: #fb923c; border-color: #fb923c40; background: #fb923c10; }
+
+  .card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cream);
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+  }
+  .card p {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--yellow);
+    margin-top: 4px;
+    transition: gap 0.2s;
+  }
+  .card:hover .card-link { gap: 10px; }
+
+  .highlight-card {
+    background: linear-gradient(135deg, #1a1208 0%, #1e1a0a 100%);
+    border-color: rgba(245,200,66,0.25);
+    --accent: var(--yellow);
+  }
+  .highlight-card .card-emoji { filter: drop-shadow(0 0 12px rgba(245,200,66,0.4)); }
+
+  /* DIVIDER */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 60px 0;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 40px 0 60px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer .flag { font-size: 20px; margin-bottom: 8px; }
+  footer a { color: var(--yellow); text-decoration: none; }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  header { animation: fadeUp 0.6s ease both; }
+  .section:nth-child(1) { animation: fadeUp 0.6s 0.1s ease both; }
+  .section:nth-child(2) { animation: fadeUp 0.6s 0.2s ease both; }
+  .section:nth-child(3) { animation: fadeUp 0.6s 0.3s ease both; }
+  .section:nth-child(4) { animation: fadeUp 0.6s 0.4s ease both; }
+
+  @media (max-width: 600px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    h1 { font-size: 52px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <div class="flag-strip"><span class="r"></span><span class="y"></span><span class="r2"></span></div>
+    <p class="eyebrow">Recursos Educacionais</p>
+    <h1>¡Aprende<br><em>Español!</em></h1>
+    <p class="subtitle">Jogos, apps, vídeos e exercícios para adolescentes e adultos</p>
+    <div class="badge-row">
+      <div class="badge">🎮 <strong>Jogos interativos</strong></div>
+      <div class="badge">📱 <strong>Aplicativos</strong></div>
+      <div class="badge">🎬 <strong>Vídeos e músicas</strong></div>
+      <div class="badge">✏️ <strong>Exercícios práticos</strong></div>
+    </div>
+  </header>
+
+  <!-- JOGOS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="icon">🎮</div>
+      <div>
+        <h2>Jogos Interativos</h2>
+        <p>Aprenda jogando — sem perceber que está estudando</p>
+      </div>
+    </div>
+    <div class="grid grid-3">
+
+      <a class="card highlight-card" href="https://www.duolingo.com/course/es/pt/Learn-Spanish" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🦉</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Duolingo</h3>
+        <p>O app mais popular do mundo para idiomas. Lições gamificadas, streaks diários e competição com amigos.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://www.languagelearninggames.com/learn_spanish.html" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🧩</span>
+          <span class="tag tag-game">JOGO</span>
+        </div>
+        <h3>Language Learning Games</h3>
+        <p>Coleção de mini-jogos para vocabulário, verbos e frases em espanhol. Funciona direto no navegador.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://www.conjuguemos.com" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">⚡</span>
+          <span class="tag tag-game">JOGO</span>
+        </div>
+        <h3>Conjuguemos</h3>
+        <p>Prática dinâmica de conjugação verbal contra o relógio. Ideal para fixar presente, passado e subjuntivo.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://sporcle.com/games/g/spanishvocabulary" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🏆</span>
+          <span class="tag tag-game">QUIZ</span>
+        </div>
+        <h3>Sporcle – Vocabulário</h3>
+        <p>Quizzes cronometrados com temas variados: cores, números, comida, países hispanohablantes e muito mais.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://www.digitaldialects.com/Spanish.htm" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🗺️</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Digital Dialects</h3>
+        <p>Jogos de vocabulário por categorias temáticas, com áudio nativo. Simples e eficaz para iniciantes.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://quizlet.com/subject/spanish/" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🃏</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Quizlet – Espanhol</h3>
+        <p>Flashcards, jogos de correspondência e modos de teste. Milhares de decks prontos para espanhol.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- APPS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="icon">📱</div>
+      <div>
+        <h2>Aplicativos</h2>
+        <p>Estude no celular — a qualquer hora e lugar</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+
+      <a class="card" href="https://www.babbel.com/learn-spanish" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🗣️</span>
+          <span class="tag tag-app">APP</span>
+        </div>
+        <h3>Babbel</h3>
+        <p>Lições curtas com foco em conversação real. Reconhecimento de voz e diálogos situacionais do dia a dia.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://www.busuu.com/dashboard#learn/spanish" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🌐</span>
+          <span class="tag tag-app">APP</span>
+        </div>
+        <h3>Busuu</h3>
+        <p>Plataforma com feedback de falantes nativos e currículo alinhado ao MCER (A1 a B2).</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://apps.ankiweb.net" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🧠</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Anki</h3>
+        <p>Sistema de repetição espaçada (SRS) comprovado cientificamente. Ideal para memorizar vocabulário de forma duradoura.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://clozemaster.com/l/pt-es" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🎯</span>
+          <span class="tag tag-app">APP</span>
+        </div>
+        <h3>Clozemaster</h3>
+        <p>Vocabulário em contexto com frases reais. Ótimo para quem já tem o básico e quer avançar rapidamente.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- VÍDEOS E MÚSICAS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="icon">🎬</div>
+      <div>
+        <h2>Vídeos e Músicas</h2>
+        <p>Imersão cultural que ensina sem esforço</p>
+      </div>
+    </div>
+    <div class="grid grid-3">
+
+      <a class="card" href="https://www.youtube.com/@SpanishwithPaul" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">▶️</span>
+          <span class="tag tag-video">VÍDEO</span>
+        </div>
+        <h3>Spanish with Paul</h3>
+        <p>Canal do YouTube com aulas claras e progressivas, do básico ao intermediário. Muito popular entre adultos.</p>
+        <span class="card-link">Assistir →</span>
+      </a>
+
+      <a class="card" href="https://www.youtube.com/@dreamenglish" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🎵</span>
+          <span class="tag tag-video">MÚSICA</span>
+        </div>
+        <h3>Dream English – Español</h3>
+        <p>Músicas educativas em espanhol para fixar vocabulário essencial de forma leve e divertida.</p>
+        <span class="card-link">Assistir →</span>
+      </a>
+
+      <a class="card" href="https://www.languagetransfer.org/free-courses-1#spanish" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🎙️</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Language Transfer</h3>
+        <p>Curso em áudio gratuito e altamente eficaz. 40 lições que ensinam a "pensar" em espanhol, não decorar.</p>
+        <span class="card-link">Ouvir →</span>
+      </a>
+
+      <a class="card" href="https://www.yabla.com/spanish-videos.php" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">📺</span>
+          <span class="tag tag-video">VÍDEO</span>
+        </div>
+        <h3>Yabla Spanish</h3>
+        <p>Vídeos autênticos com legendas interativas em espanhol e português. Excelente para treinar compreensão oral.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://lyrics.training/es" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🎤</span>
+          <span class="tag tag-game">JOGO</span>
+        </div>
+        <h3>LyricsTraining</h3>
+        <p>Complete as letras de músicas hispanas enquanto elas tocam. Aprende escutando seus artistas favoritos.</p>
+        <span class="card-link">Jogar →</span>
+      </a>
+
+      <a class="card" href="https://www.fluentu.com/blog/spanish/" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🌟</span>
+          <span class="tag tag-video">VÍDEO</span>
+        </div>
+        <h3>FluentU Blog</h3>
+        <p>Recursos gratuitos com indicações de vídeos, filmes e séries para aprender espanhol por imersão real.</p>
+        <span class="card-link">Explorar →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- EXERCÍCIOS -->
+  <div class="section">
+    <div class="section-label">
+      <div class="icon">✏️</div>
+      <div>
+        <h2>Exercícios Práticos</h2>
+        <p>Gramática, leitura e escrita com feedback imediato</p>
+      </div>
+    </div>
+    <div class="grid grid-2">
+
+      <a class="card" href="https://www.spanishdict.com/exercises" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">📖</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>SpanishDict – Exercícios</h3>
+        <p>Referência completa com exercícios de gramática, conjugador de verbos e dicionário bilíngue detalhado.</p>
+        <span class="card-link">Praticar →</span>
+      </a>
+
+      <a class="card" href="https://www.studyspanish.com/grammar" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">📝</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>Study Spanish</h3>
+        <p>Gramática organizada por nível com explicações e exercícios para cada tópico. Ótimo como material de apoio.</p>
+        <span class="card-link">Estudar →</span>
+      </a>
+
+      <a class="card" href="https://ielanguages.com/spanish.html" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🔤</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>IE Languages</h3>
+        <p>Lições estruturadas em formato de apostila digital. Cobre fonética, vocabulário, gramática e frases úteis.</p>
+        <span class="card-link">Acessar →</span>
+      </a>
+
+      <a class="card" href="https://www.profedeele.es/actividades/" target="_blank">
+        <div class="card-top">
+          <span class="card-emoji">🏫</span>
+          <span class="tag tag-free">GRÁTIS</span>
+        </div>
+        <h3>ProfeDeELE</h3>
+        <p>Atividades criadas por professores de ELE (Espanhol como Língua Estrangeira). Recursos pedagógicos completos.</p>
+        <span class="card-link">Explorar →</span>
+      </a>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <footer>
+    <div class="flag">🇪🇸 🇲🇽 🇦🇷 🇨🇴 🇨🇱</div>
+    <p>Recursos selecionados para adolescentes e adultos aprendizes de espanhol</p>
+    <p style="margin-top: 8px; font-size: 12px;">Página criada com ❤️ para fins educacionais</p>
+  </footer>
+
+</div>
+</body>
+</html>
